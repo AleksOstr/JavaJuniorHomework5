@@ -1,16 +1,27 @@
-package ru.gb.lesson5;
+package ru.gb.lesson5.Connections;
+
+import ru.gb.lesson5.AdminSocketOption;
+import ru.gb.lesson5.Server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketOption;
+import java.net.StandardSocketOptions;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Client {
 
   public static void main(String[] args) throws IOException {
-    final Socket client = new Socket("localhost", Server.PORT);
-    // чтение
+    final Socket client = new Socket("localhost", Server.PORT).setOption(AdminSocketOption.ADMIN_OPTION, false);
+    startInputThread(client);
+    startOutputThread(client);
+
+  }
+
+  // чтение
+  protected static void startInputThread(Socket client) {
     new Thread(() -> {
       try (Scanner input = new Scanner(client.getInputStream())) {
         while (true) {
@@ -20,8 +31,10 @@ public class Client {
         throw new RuntimeException(e);
       }
     }).start();
+  }
 
-    // запись
+  // запись
+  protected static void startOutputThread(Socket client) {
     new Thread(() -> {
       try (PrintWriter output = new PrintWriter(client.getOutputStream(), true)) {
         Scanner consoleScanner = new Scanner(System.in);
@@ -37,7 +50,6 @@ public class Client {
         throw new RuntimeException(e);
       }
     }).start();
-
   }
 }
 
