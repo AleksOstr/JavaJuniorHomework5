@@ -56,7 +56,6 @@ public class Server {
                 while (true) {
                     String clientInput = input.nextLine();
                     if (Objects.equals("q", clientInput)) {
-                        // todo разослать это сообщение всем остальным клиентам
                         clients.remove(clientId);
                         clients.values().forEach(it -> it.getOutput().println("Клиент[" + clientId + "] отключился"));
                         break;
@@ -77,7 +76,6 @@ public class Server {
                 while (true) {
                     String clientInput = input.nextLine();
                     if (Objects.equals("q", clientInput)) {
-                        // todo разослать это сообщение всем остальным клиентам
                         clients.remove(clientId);
                         clients.values().forEach(it -> it.getOutput().println("Администратор[" + clientId + "] отключился"));
                         break;
