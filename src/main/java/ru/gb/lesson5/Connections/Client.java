@@ -1,20 +1,19 @@
 package ru.gb.lesson5.Connections;
 
-import ru.gb.lesson5.AdminSocketOption;
+
 import ru.gb.lesson5.Server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketOption;
-import java.net.StandardSocketOptions;
+
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Client {
 
   public static void main(String[] args) throws IOException {
-    final Socket client = new Socket("localhost", Server.PORT).setOption(AdminSocketOption.ADMIN_OPTION, false);
+    final Socket client = new Socket("localhost", Server.PORT);
     startInputThread(client);
     startOutputThread(client);
 

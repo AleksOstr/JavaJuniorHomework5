@@ -1,6 +1,7 @@
 package ru.gb.lesson5;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,19 +9,20 @@ import java.net.Socket;
 import java.util.Scanner;
 
 @Getter
+@Setter
 public class SocketWrapper implements AutoCloseable {
 
     private final long id;
     private final Socket socket;
 
-    private final boolean isAdmin;
+    private boolean isAdmin;
     private final Scanner input;
     private final PrintWriter output;
 
-    SocketWrapper(long id, Socket socket) throws IOException {
+    SocketWrapper(long id, Socket socket, boolean isAdmin) throws IOException {
         this.id = id;
         this.socket = socket;
-        this.isAdmin = socket.getOption(AdminSocketOption.ADMIN_OPTION);
+        this.isAdmin = isAdmin;
         this.input = new Scanner(socket.getInputStream());
         this.output = new PrintWriter(socket.getOutputStream(), true);
     }
@@ -34,4 +36,6 @@ public class SocketWrapper implements AutoCloseable {
     public String toString() {
         return String.format("%s", socket.getInetAddress().toString());
     }
+
+
 }
